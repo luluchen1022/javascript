@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #88a3ff;
+        }
+
+        .ball {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #ff3023;
+            text-align: center;
+            line-height: 60px;
+            color: white;
+            border-radius: 50%;
+            left: 370px;
+            top: 270px;
+            transition-duration: 1s;
+            transition-timing-function: cubic-bezier(0, .63, .59, 1.95);
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+    </div>
+
+    <script>
+        var i, k, n;
+        var cont = document.getElementById('container');
+        var el;
+
+        var ballNum = 12;
+        var angUnit = Math.PI * 2 / ballNum;
+
+        for (i = 0; i < ballNum; i++) {
+            el = document.createElement('div');
+            el.className = 'ball';
+            el.innerHTML = i;
+            // el.style.left = 400-30 + Math.round(Math.cos(angUnit*i)*200) + 'px';
+            // el.style.top =  300-30 + Math.round(Math.sin(angUnit*i)*200) + 'px';
+            cont.appendChild(el);
+        }
+
+        var balls = document.querySelectorAll('.ball');
+
+        var func = (function () {
+            var n = 0;
+            return function () {
+                el = balls[n];
+                el.style.left = 400 - 30 + Math.round(Math.cos(angUnit * n) * 200) + 'px';
+                el.style.top = 300 - 30 + Math.round(Math.sin(angUnit * n) * 200) + 'px';
+                n++;
+            };
+        })()
+
+
+        var back = (function () {
+            var n = 0;
+            return function () {
+                el = balls[n];
+                el.style.left = '400px';
+                el.style.top = '300px';
+                n++;
+            };
+        })()
+
+        
+
+        for (i = 0; i < balls.length; i++) {
+            setTimeout(back, 500 + 500 * i + 500 * 12 + 500);
+        }
+
+        for (i = 0; i < balls.length; i++) {
+            setTimeout(func, 500 + 500 * i);
+        }
+
+    </script>
+</body>
+
+</html>

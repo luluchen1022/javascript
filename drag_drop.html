@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #rect {
+            position: relative;
+            width: 600px;
+            height: 500px;
+            background-color: aquamarine;
+        }
+
+        .ball {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #ff3737;
+            border: 1px solid black;
+            border-radius: 50%;
+            cursor: pointer;
+            text-align: center;
+            line-height: 40px;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="rect">
+        <img class="trashcan" src="images/garbage.png" alt="">
+    </div>
+
+    <script>
+        var rect = document.getElementById('rect');
+
+        var target, dx, dy;
+
+        var trashcan = document.getElementsByClassName('trashcan')[0];
+
+        var mMove = function (event) {
+            target.style.left = event.pageX - dx - rect.offsetLeft + 'px';
+            target.style.top = event.pageY - dy - rect.offsetTop + 'px';
+        };
+
+        var mDown = function (event) {
+            target = event.target;
+            rect.appendChild(target);
+            dx = event.offsetX;
+            dy = event.offsetY;
+            window.addEventListener('mousemove', mMove);
+        };
+        var mUp = function (event) {
+            window.removeEventListener('mousemove', mMove);
+            var trashcanPostion = trashcan.getBoundingClientRect();
+            var targetleft = event.pageX - dx - rect.offsetLeft;
+            var targettop = event.pageY - dy - rect.offsetTop;
+
+            if (targettop + 40 > trashcanPostion.top && targettop < trashcanPostion.bottom && targetleft + 40 > trashcanPostion.left && targetleft < trashcanPostion.right) {
+                target.style.display = 'none';
+                trashcan.setAttribute("src", "images/garbage-open.png")
+            };
+        };
+        // ball.addEventListener('mousedown', mDown);
+        window.addEventListener('mouseup', mUp);
+
+
+        var el;
+        var ballNum = 12;
+        var angUnit = Math.PI * 2 / ballNum;
+
+        for (i = 0; i < ballNum; i++) {
+            el = document.createElement('div');
+            el.className = 'ball';
+            el.innerHTML = i;
+            el.style.left = 400 - 20 + Math.round(Math.cos(angUnit * i) * 200) + 'px';
+            el.style.top = 300 - 20 + Math.round(Math.sin(angUnit * i) * 200) + 'px';
+            rect.appendChild(el);
+            el.addEventListener('mousedown', mDown);
+        }
+    </script>
+
+</body>
+
+</html>

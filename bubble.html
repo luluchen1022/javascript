@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: #9cbdff;
+            overflow: hidden;
+        }
+
+
+        .bubble {
+            position: absolute;
+            background-color: #ff4e3d;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+<div id="rect">
+
+</div>
+
+
+<script>
+    var rect = document.getElementById('rect');
+    var i, b, size, color;
+
+    function digi6Color(s){
+        var zero = '000000';
+        s += '';
+        return '#' + zero.slice(s.length) + s;
+    }
+
+    for(i=0; i<100; i++){
+        b = document.createElement('div');
+        b.className = 'bubble';
+        b.style.left = parseInt(Math.random()*800) + 'px';
+        b.style.top = parseInt(Math.random()*600) + 'px';
+
+        size = 6 + parseInt(Math.random()*25);
+        b.style.width = size + 'px';
+        b.style.height = b.style.width;
+
+        color = parseInt(Math.random()*256*256*256).toString(16);
+        color = digi6Color(color);
+
+        // color = `hsl(${parseInt(Math.random()*360)},100%,50%)`;
+
+        b.style.backgroundColor = color;
+        console.log(color);
+        rect.appendChild(b);
+    }
+
+    var bubbles = document.querySelectorAll('.bubble');
+    var func = function(){
+
+        bubbles.forEach(function(el){
+            var top = parseInt(el.style.top);
+            var left = parseInt(el.style.left);
+            top -= parseInt(Math.random()*3);
+            left -= parseInt(Math.random()*5)-2;
+
+            el.style.top = top +'px';
+            el.style.left = left +'px';
+        });
+
+        setTimeout(func, 30);
+    };
+    func();
+
+    
+</script>
+</body>
+</html>

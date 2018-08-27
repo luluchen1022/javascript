@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .clock {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            background-color: #88a3ff;
+            border-radius: 50%;
+            border: 1px solid blue;
+        }
+
+        .clock ul {
+            position: relative;
+        }
+
+        .clock ul li {
+            width: 2px;
+            height: 6px;
+            background: #000;
+            position: absolute;
+            left: 300px;
+            top: 0;
+            transform-origin: center 300px;
+        }
+
+        .clock ul li:nth-child(5n) {
+            height: 10px;
+        }
+
+        .hand {
+            position: absolute;
+            left: 300px;
+            top: 300px;
+        }
+
+        .hr-hand {
+            position: absolute;
+            width: 20px;
+            height: 140px;
+            background: rgb(184, 55, 184);
+            left: -10px;
+            top: -130px;
+            border-radius: 10px;
+        }
+
+        .min-hand {
+            position: absolute;
+            width: 20px;
+            height: 200px;
+            background: rgb(153, 185, 62);
+            left: -10px;
+            top: -190px;
+            border-radius: 10px;
+        }
+
+        .sec-hand {
+            position: absolute;
+            width: 10px;
+            height: 280px;
+            background: red;
+            left: -5px;
+            top: -270px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+        <ul class="clock-scale">
+
+        </ul>
+        <div class="hand hand-hr">
+            <div class="hr-hand"></div>
+        </div>
+        <div class="hand hand-min">
+            <div class="min-hand"></div>
+        </div>
+        <div class="hand hand-sec">
+            <div class="sec-hand"></div>
+        </div>
+
+
+
+        <div id="container"></div>
+    </div>
+
+    <script>
+
+        var cont = document.getElementById('container');
+        var i;
+        var sec_hand = document.querySelector('.hand-sec');
+        var min_hand = document.querySelector('.hand-min');
+        var hr_hand = document.querySelector('.hand-hr');
+        var clock_scale = document.querySelector('clock-scale');
+        var clock = document.querySelector('.clock');
+        var tump = '';
+
+        for (i = 0; i < 60; i++) {
+            var scale = document.createElement('li');
+            clock_scale.appendChild(scale);
+            tump += '.clock ul li:nth-child(' + (i + 1) + '){transform: rotate(' + (i + 1) * 6 + 'deg);}';
+            scale.innerHTML += tump;
+        };
+
+        var func = function () {
+            var now = new Date();
+            var s = now.getSeconds();
+            var h = now.getHours() + now.getMinutes() / 60;
+            sec_hand.style.transform = `rotate(${s * 6}deg)`;
+            min_hand.style.transform = `rotate(${now.getMinutes() * 6}deg)`;
+            hr_hand.style.transform = `rotate(${h * 30}deg)`;
+            cont.innerText = now.toString().split(' ')[4];
+            setTimeout(func, 1000);
+        };
+
+        func();
+
+
+    </script>
+
+</body>
+
+</html>
